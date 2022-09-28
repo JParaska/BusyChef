@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../../Components/PoolableActorInterface.h"
 #include "ProjectileBase.generated.h"
 
 UCLASS()
-class BUSYCHEF_API AProjectileBase : public AActor
+class BUSYCHEF_API AProjectileBase : public AActor, public IPoolableActorInterface
 {
 	GENERATED_BODY()
 	
@@ -18,6 +19,13 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+#pragma region IPoolableActorInterface
+	virtual void ActivatePoolable() override;
+
+	UFUNCTION(BlueprintCallable, Category = "ActorPool")
+	virtual void DeactivatePoolable() override;
+#pragma endregion
 
 protected:
 	// Called when the game starts or when spawned

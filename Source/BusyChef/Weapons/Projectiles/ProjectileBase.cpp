@@ -1,7 +1,9 @@
 // This project is entry for Games Job FairAutumn'22 UE SHMUMP challenge. Created by Jan Paraska
 
-
 #include "ProjectileBase.h"
+
+#include "../WeaponBase.h"
+#include "../../Components/ActorPoolComponent.h"
 
 // Sets default values
 AProjectileBase::AProjectileBase()
@@ -16,6 +18,16 @@ void AProjectileBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AProjectileBase::ActivatePoolable() {
+	// TODO enable collision
+	SetActorHiddenInGame(false);
+}
+
+void AProjectileBase::DeactivatePoolable() {
+	// TODO disable collision
+	SetActorHiddenInGame(true);
 }
 
 // Called when the game starts or when spawned

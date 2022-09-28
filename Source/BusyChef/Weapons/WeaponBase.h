@@ -9,6 +9,7 @@
 #pragma region Forward declarations
 class AProjectileBase;
 
+class UActorPoolComponent;
 class UArrowComponent;
 class USceneComponent;
 class UStaticMeshComponent;
@@ -31,6 +32,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> Muzzle;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UActorPoolComponent> ProjectileComponent;
 #pragma endregion
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
@@ -48,6 +52,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon")
 	void Fire();
 	virtual void Fire_Implementation();
+
+	UFUNCTION(BlueprintPure, Cateogry = "Weapon")
+	TObjectPtr<UActorPoolComponent> GetProjectileComponent() { return ProjectileComponent; }
 
 protected:
 	// Called when the game starts or when spawned

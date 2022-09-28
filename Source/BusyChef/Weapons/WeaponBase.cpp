@@ -6,6 +6,8 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 
+#include "../Components/ActorPoolComponent.h"
+
 // Sets default values
 AWeaponBase::AWeaponBase()
 {
@@ -20,6 +22,8 @@ AWeaponBase::AWeaponBase()
 
 	Muzzle = CreateDefaultSubobject<UArrowComponent>(TEXT("Muzzle"));
 	Muzzle->SetupAttachment(WeaponMesh);
+
+	ProjectileComponent = CreateDefaultSubobject<UActorPoolComponent>(TEXT("Projectile pool"));
 }
 
 // Called every frame
@@ -30,7 +34,8 @@ void AWeaponBase::Tick(float DeltaTime)
 }
 
 void AWeaponBase::Fire_Implementation() {
-	//Base implementation
+	if (ProjectileComponent != nullptr && Muzzle != nullptr)
+		ProjectileComponent->GetPoolableActor(Muzzle->GetComponentTransform());
 }
 
 // Called when the game starts or when spawned
