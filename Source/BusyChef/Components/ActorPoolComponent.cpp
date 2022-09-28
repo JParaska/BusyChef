@@ -40,10 +40,13 @@ IPoolableActorInterface* UActorPoolComponent::GetPoolableActor(const FTransform&
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = GetOwner();
 		PooledActor = GetWorld()->SpawnActor<IPoolableActorInterface>(PoolableActorClass, Destination, SpawnParams);
-		ActiveActors.Add(PooledActor);
+	}
+	else {
+		PooledActor->SetTransform(Destination);
 	}
 
 	if (PooledActor != nullptr) {
+		ActiveActors.Add(PooledActor);
 		PooledActor->ActivatePoolable();
 	}
 	return PooledActor;

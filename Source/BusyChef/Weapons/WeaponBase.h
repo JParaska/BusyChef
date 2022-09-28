@@ -34,7 +34,7 @@ protected:
 	TObjectPtr<UArrowComponent> Muzzle;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UActorPoolComponent> ProjectileComponent;
+	TObjectPtr<UActorPoolComponent> ProjectilePoolComponent;
 #pragma endregion
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
@@ -53,8 +53,8 @@ public:
 	void Fire();
 	virtual void Fire_Implementation();
 
-	UFUNCTION(BlueprintPure, Cateogry = "Weapon")
-	TObjectPtr<UActorPoolComponent> GetProjectileComponent() { return ProjectileComponent; }
+	UFUNCTION(BlueprintPure, Category = "Weapon")
+	UActorPoolComponent* GetProjectilePoolComponent() { return ProjectilePoolComponent; }
 
 protected:
 	// Called when the game starts or when spawned

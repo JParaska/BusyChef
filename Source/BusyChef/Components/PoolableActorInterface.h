@@ -25,5 +25,9 @@ public:
 
 	virtual void ActivatePoolable() = 0;
 
+	virtual void SetTransform(const FTransform& Destination) = 0;
+
 	virtual void DeactivatePoolable() = 0;
+
+	virtual void ReturnToPool() = 0;
 };

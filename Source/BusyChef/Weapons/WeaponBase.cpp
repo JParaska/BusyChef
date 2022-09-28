@@ -23,7 +23,7 @@ AWeaponBase::AWeaponBase()
 	Muzzle = CreateDefaultSubobject<UArrowComponent>(TEXT("Muzzle"));
 	Muzzle->SetupAttachment(WeaponMesh);
 
-	ProjectileComponent = CreateDefaultSubobject<UActorPoolComponent>(TEXT("Projectile pool"));
+	ProjectilePoolComponent = CreateDefaultSubobject<UActorPoolComponent>(TEXT("Projectile pool"));
 }
 
 // Called every frame
@@ -34,8 +34,8 @@ void AWeaponBase::Tick(float DeltaTime)
 }
 
 void AWeaponBase::Fire_Implementation() {
-	if (ProjectileComponent != nullptr && Muzzle != nullptr)
-		ProjectileComponent->GetPoolableActor(Muzzle->GetComponentTransform());
+	if (ProjectilePoolComponent != nullptr && Muzzle != nullptr)
+		ProjectilePoolComponent->GetPoolableActor(Muzzle->GetComponentTransform());
 }
 
 // Called when the game starts or when spawned
