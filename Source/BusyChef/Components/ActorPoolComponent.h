@@ -23,10 +23,10 @@ protected:
 	TSet<IPoolableActorInterface*> ActiveActors;
 
 	// Must implement PoolableActorInterface
-	UPROPERTY(EditDefaultsOnly, Category = "ActorPool", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "ActorPool", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> PoolableActorClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "ActorPool", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "ActorPool", meta = (AllowPrivateAccess = "true"))
 	int MaxActiveActors = 20;
 #pragma endregion
 
@@ -41,6 +41,8 @@ public:
 	IPoolableActorInterface* GetPoolableActor(const FTransform& Destination);
 
 	void ReturnPoolableActor(IPoolableActorInterface* PooledActor);
+
+	TSubclassOf<AActor> GetPoolableActorClass() const { return PoolableActorClass; }
 
 protected:
 	// Called when the game starts

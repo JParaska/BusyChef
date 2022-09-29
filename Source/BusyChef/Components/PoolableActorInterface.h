@@ -6,7 +6,6 @@
 #include "UObject/Interface.h"
 #include "PoolableActorInterface.generated.h"
 
-// This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UPoolableActorInterface : public UInterface
 {
@@ -14,20 +13,31 @@ class UPoolableActorInterface : public UInterface
 };
 
 /**
- * 
+ * Interface for poolable actors
  */
 class BUSYCHEF_API IPoolableActorInterface
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+	/*
+	* Called by pool when pooling actor
+	*/
 	virtual void ActivatePoolable() = 0;
 
+	/*
+	* Sets poolable actor transform
+	*/
 	virtual void SetTransform(const FTransform& Destination) = 0;
 
+	/*
+	* Called by pool when actor is returned to pool
+	*/
 	virtual void DeactivatePoolable() = 0;
 
+	/*
+	* Initiates returning to pool
+	*/
 	virtual void ReturnToPool() = 0;
 };

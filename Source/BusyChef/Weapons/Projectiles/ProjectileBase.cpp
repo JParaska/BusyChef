@@ -49,7 +49,7 @@ void AProjectileBase::SetTransform(const FTransform& Destination) {
 
 void AProjectileBase::DeactivatePoolable() {
 	// TODO disable collision
-	// TODO stop movement
+
 	ProjectileMovement->Deactivate();
 	SetActorHiddenInGame(true);
 
