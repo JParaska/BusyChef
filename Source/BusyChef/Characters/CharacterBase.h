@@ -6,10 +6,22 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+#pragma region Forward declarations
+class UCharacterStatsComponent;
+#pragma endregion
+
 UCLASS()
 class BUSYCHEF_API ACharacterBase : public ACharacter
 {
 	GENERATED_BODY()
+
+#pragma region Properties
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCharacterStatsComponent> StatsComponent;
+
+#pragma endregion
 
 #pragma region Methods
 public:
@@ -22,5 +34,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 #pragma endregion
 };

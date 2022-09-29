@@ -42,6 +42,9 @@ protected:
 	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
 	float LifeTime = -1.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
+	float Damage = 30.0f;
 #pragma endregion
 	
 #pragma region Methods
