@@ -37,6 +37,10 @@ void AProjectileBase::ActivatePoolable() {
 	SetActorHiddenInGame(false);
 	ProjectileMovement->Activate();
 	ProjectileMovement->Velocity = GetActorForwardVector().GetSafeNormal() * ProjectileMovement->InitialSpeed;
+
+	if (LifeTime > 0) {
+		GetWorld()->GetTimerManager().SetTimer(LifeTimeTimerHandle, this, &AProjectileBase::ReturnToPool, LifeTime, false, LifeTime);
+	}
 }
 
 void AProjectileBase::SetTransform(const FTransform& Destination) {
@@ -48,12 +52,18 @@ void AProjectileBase::DeactivatePoolable() {
 	// TODO stop movement
 	ProjectileMovement->Deactivate();
 	SetActorHiddenInGame(true);
+
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
 void AProjectileBase::ReturnToPool() {
 	AWeaponBase* WeaponOwner = Cast<AWeaponBase>(GetOwner());
 	if (WeaponOwner != nullptr && WeaponOwner->GetProjectilePoolComponent() != nullptr) {
 		WeaponOwner->GetProjectilePoolComponent()->ReturnPoolableActor(this);
+	}
+	else {
+		// If there is no pool to return to, destroy
+		Destroy();
 	}
 }
 

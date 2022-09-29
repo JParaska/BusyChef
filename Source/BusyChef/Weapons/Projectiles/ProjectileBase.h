@@ -19,8 +19,13 @@ class BUSYCHEF_API AProjectileBase : public AActor, public IPoolableActorInterfa
 	GENERATED_BODY()
 
 #pragma region Properties
+private:
+
+	FTimerHandle LifeTimeTimerHandle;
+
 protected:
 
+#pragma region Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USphereComponent> ProjectileCollision;
 
@@ -29,6 +34,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
+#pragma endregion
+
+	/*
+	* After its lifetime, projectile will be returned to pool / destroyed
+	* -1 = infinite
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
+	float LifeTime = -1.0f;
 #pragma endregion
 	
 #pragma region Methods
