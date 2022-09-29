@@ -37,8 +37,8 @@ void ASpawnerBase::Spawn(const TSubclassOf<AActor>& Type, const int Count) {
 }
 
 void ASpawnerBase::ReturnSpawnedActor(AActor* SpawnedActor) {
-	if (PoolComponents.Contains(SpawnedActor->StaticClass())) {
-		PoolComponents[SpawnedActor->StaticClass()]->ReturnPoolableActor(Cast<IPoolableActorInterface>(SpawnedActor));
+	if (PoolComponents.Contains(SpawnedActor->GetClass())) {
+		PoolComponents[SpawnedActor->GetClass()]->ReturnPoolableActor(Cast<IPoolableActorInterface>(SpawnedActor));
 	}
 }
 

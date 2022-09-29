@@ -40,6 +40,8 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void Death() override;
+
 private:
 
 	void MovementX(float Value);

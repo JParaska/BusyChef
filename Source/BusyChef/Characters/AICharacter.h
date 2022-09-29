@@ -31,5 +31,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ActorPool")
 	virtual void ReturnToPool() override;
 #pragma endregion
+
+	virtual void Death() override;
 #pragma endregion
 };

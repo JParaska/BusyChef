@@ -63,3 +63,7 @@ void UActorPoolComponent::ReturnPoolableActor(IPoolableActorInterface* PooledAct
 	}
 }
 
+int UActorPoolComponent::ActiveActorsCount() const {
+	return ActiveActors.Num();
+}
+

@@ -2,6 +2,8 @@
 
 #include "CharacterStatsComponent.h"
 
+#include "../Characters/CharacterBase.h"
+
 // Sets default values for this component's properties
 UCharacterStatsComponent::UCharacterStatsComponent()
 {
@@ -29,9 +31,12 @@ void UCharacterStatsComponent::InitStats() {
 
 void UCharacterStatsComponent::UpdateHealth(float DeltaHealth) {
 	CurrentHealth = FMath::Clamp(CurrentHealth + DeltaHealth, 0.0f, MaxHealth);
-
+	
 	if (CurrentHealth <= 0.0f) {
-		// TODO call death on character
+		ACharacterBase* CharacterOwner = Cast<ACharacterBase>(GetOwner());
+		if (CharacterOwner != nullptr) {
+			CharacterOwner->Death();
+		}
 	}
 }
 

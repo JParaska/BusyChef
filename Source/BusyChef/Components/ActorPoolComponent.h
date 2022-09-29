@@ -42,6 +42,8 @@ public:
 
 	void ReturnPoolableActor(IPoolableActorInterface* PooledActor);
 
+	int ActiveActorsCount() const;
+
 	TSubclassOf<AActor> GetPoolableActorClass() const { return PoolableActorClass; }
 
 protected:

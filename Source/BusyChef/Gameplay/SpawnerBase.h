@@ -11,6 +11,9 @@ class UActorPoolComponent;
 class UBoxComponent;
 #pragma endregion
 
+/*
+* Base spawner class responsible for spawning poolable objects
+*/
 UCLASS()
 class BUSYCHEF_API ASpawnerBase : public AActor
 {
@@ -39,7 +42,7 @@ public:
 	void Spawn(const TSubclassOf<AActor>& Type, const int Count);
 
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
-	void ReturnSpawnedActor(AActor* SpawnedActor);
+	virtual void ReturnSpawnedActor(AActor* SpawnedActor);
 
 protected:
 	// Called when the game starts or when spawned

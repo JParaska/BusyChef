@@ -2,6 +2,7 @@
 
 #include "CharacterBase.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
 #include "../Components/CharacterStatsComponent.h"
 
 // Sets default values
@@ -11,6 +12,7 @@ ACharacterBase::ACharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	StatsComponent = CreateDefaultSubobject<UCharacterStatsComponent>(TEXT("Character stats"));
+	GetCharacterMovement()->GravityScale = 0.0f;
 }
 
 // Called every frame
@@ -18,6 +20,10 @@ void ACharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACharacterBase::Death() {
+	UE_LOG(LogTemp, Error, TEXT("Override this method in child class"));
 }
 
 // Called when the game starts or when spawned

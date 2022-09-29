@@ -33,6 +33,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MovementY", this, &APlayerCharacter::MovementY);
 }
 
+void APlayerCharacter::Death() {
+	// TODO Game Over
+}
+
 void APlayerCharacter::MovementX(float Value) {
 	if ((Controller != NULL) && (Value != 0.0f)) {
 		AddMovementInput(FVector(Value, 0, 0));
