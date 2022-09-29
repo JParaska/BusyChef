@@ -43,3 +43,15 @@ void AAICharacter::ReturnToPool() {
 void AAICharacter::Death() {
 	ReturnToPool();
 }
+
+void AAICharacter::PossessedBy(AController* NewController) {
+	AActor* PreviousOwner = GetOwner();
+
+	Super::PossessedBy(NewController);
+
+	// If AI character was spawned from pool, set that pool as an owner again
+	// TODO check if previous owner is really a pool and contains this AI character
+	if (PreviousOwner != nullptr) {
+		SetOwner(PreviousOwner);
+	}
+}

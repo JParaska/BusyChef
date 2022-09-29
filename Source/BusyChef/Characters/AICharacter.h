@@ -33,5 +33,7 @@ public:
 #pragma endregion
 
 	virtual void Death() override;
+
+	virtual void PossessedBy(AController* NewController) override;
 #pragma endregion
 };
