@@ -8,6 +8,7 @@
 
 #pragma region Forward declarations
 class UCharacterStatsComponent;
+class UWeaponComponent;
 #pragma endregion
 
 UCLASS()
@@ -20,6 +21,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCharacterStatsComponent> StatsComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWeaponComponent> WeaponComponent;
 
 #pragma endregion
 
@@ -34,10 +38,10 @@ public:
 	virtual void Death();
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
-	virtual void AttackStart();
+	void AttackStart();
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
-	virtual void AttackStop();
+	void AttackStop();
 
 protected:
 	// Called when the game starts or when spawned

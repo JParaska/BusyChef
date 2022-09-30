@@ -20,8 +20,6 @@ APlayerCharacter::APlayerCharacter() {
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 	bUseControllerRotationYaw = false;
-
-	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon component"));
 }
 
 void APlayerCharacter::Tick(float DeltaTime) {
@@ -35,8 +33,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MovementX", this, &APlayerCharacter::MovementX);
 	PlayerInputComponent->BindAxis("MovementY", this, &APlayerCharacter::MovementY);
 
-	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &APlayerCharacter::AttackStart);
-	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &APlayerCharacter::AttackStop);
+	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &ACharacterBase::AttackStart);
+	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &ACharacterBase::AttackStop);
 	PlayerInputComponent->BindAction("NextWeapon", EInputEvent::IE_Pressed, this, &APlayerCharacter::NextWeapon);
 	PlayerInputComponent->BindAction("PreviousWeapon", EInputEvent::IE_Pressed, this, &APlayerCharacter::PreviousWeapon);
 }
@@ -72,18 +70,6 @@ void APlayerCharacter::PlayerAim() {
 		FRotator CurrentRotation = GetActorRotation();
 		CurrentRotation.Yaw = NewRotation.Yaw;
 		SetActorRotation(CurrentRotation);
-	}
-}
-
-void APlayerCharacter::AttackStart() {
-	if (WeaponComponent != nullptr) {
-		WeaponComponent->PullTrigger();
-	}
-}
-
-void APlayerCharacter::AttackStop() {
-	if (WeaponComponent != nullptr) {
-		WeaponComponent->ReleaseTrigger();
 	}
 }
 

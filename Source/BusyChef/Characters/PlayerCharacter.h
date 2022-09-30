@@ -9,7 +9,6 @@
 #pragma region ForwardDeclarations
 class UCameraComponent;
 class USpringArmComponent;
-class UWeaponComponent;
 #pragma endregion ForwardDeclarations
 
 /**
@@ -29,9 +28,6 @@ protected:
 	/** Follow camera */
 	UPROPERTY(Category = Camera, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UWeaponComponent> WeaponComponent;
 #pragma endregion
 
 #pragma region Methods
@@ -54,8 +50,6 @@ private:
 	// Rotates player towards mouse point
 	void PlayerAim();
 
-	virtual void AttackStart() override;
-	virtual void AttackStop() override;
 	void NextWeapon();
 	void PreviousWeapon();
 #pragma endregion

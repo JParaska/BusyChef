@@ -3,7 +3,9 @@
 #include "CharacterBase.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+
 #include "../Components/CharacterStatsComponent.h"
+#include "../Components/WeaponComponent.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -13,6 +15,8 @@ ACharacterBase::ACharacterBase()
 
 	StatsComponent = CreateDefaultSubobject<UCharacterStatsComponent>(TEXT("Character stats"));
 	GetCharacterMovement()->GravityScale = 0.0f;
+
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon component"));
 }
 
 // Called every frame
@@ -27,11 +31,15 @@ void ACharacterBase::Death() {
 }
 
 void ACharacterBase::AttackStart() {
-	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->PullTrigger();
+	}
 }
 
 void ACharacterBase::AttackStop() {
-	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->ReleaseTrigger();
+	}
 }
 
 // Called when the game starts or when spawned
