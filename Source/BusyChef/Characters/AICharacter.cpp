@@ -11,6 +11,8 @@
 
 AAICharacter::AAICharacter() {
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	Tags.Add("AICharacter");
 }
 
 void AAICharacter::ActivatePoolable() {

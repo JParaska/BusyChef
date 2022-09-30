@@ -81,5 +81,13 @@ void AProjectileBase::ProjectileHit_Implementation(AActor* Actor) {
 }
 
 void AProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	if (OtherActor == nullptr)
+		return;
+
+	// If owner has same tag as hit actor, return - (a bit crude way to) avoid friendly fire
+	if (Owner != nullptr && Owner->Tags.Num() > 0 && OtherActor->Tags.Contains(Owner->Tags[0])) {
+		return;
+	}
+
 	ProjectileHit(OtherActor);
 }

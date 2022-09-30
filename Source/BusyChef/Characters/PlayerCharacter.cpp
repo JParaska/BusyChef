@@ -20,6 +20,8 @@ APlayerCharacter::APlayerCharacter() {
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 	bUseControllerRotationYaw = false;
+
+	Tags.Add("Player");
 }
 
 void APlayerCharacter::Tick(float DeltaTime) {

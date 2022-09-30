@@ -43,4 +43,11 @@ void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	
+	if (Owner != nullptr) {
+		Tags.Append(Owner->Tags);
+	}
+	else if (GetParentActor() != nullptr) {
+		Tags.Append(GetParentActor()->Tags);
+	}
 }
