@@ -33,6 +33,14 @@ void ACharacterBase::BeginPlay()
 
 }
 
+void ACharacterBase::AttackStart() {
+	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
+}
+
+void ACharacterBase::AttackStop() {
+	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
+}
+
 float ACharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {
 	const float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	StatsComponent->UpdateHealth(-ActualDamage);

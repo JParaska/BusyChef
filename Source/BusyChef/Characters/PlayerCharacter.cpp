@@ -4,6 +4,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "../Components/WeaponComponent.h"
 
 APlayerCharacter::APlayerCharacter() {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Boom"));
@@ -19,6 +20,8 @@ APlayerCharacter::APlayerCharacter() {
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 	bUseControllerRotationYaw = false;
+
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon component"));
 }
 
 void APlayerCharacter::Tick(float DeltaTime) {
@@ -31,6 +34,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MovementX", this, &APlayerCharacter::MovementX);
 	PlayerInputComponent->BindAxis("MovementY", this, &APlayerCharacter::MovementY);
+
+	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &APlayerCharacter::AttackStart);
+	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &APlayerCharacter::AttackStop);
+	PlayerInputComponent->BindAction("NextWeapon", EInputEvent::IE_Pressed, this, &APlayerCharacter::NextWeapon);
+	PlayerInputComponent->BindAction("PreviousWeapon", EInputEvent::IE_Pressed, this, &APlayerCharacter::PreviousWeapon);
 }
 
 void APlayerCharacter::Death() {
@@ -64,5 +72,29 @@ void APlayerCharacter::PlayerAim() {
 		FRotator CurrentRotation = GetActorRotation();
 		CurrentRotation.Yaw = NewRotation.Yaw;
 		SetActorRotation(CurrentRotation);
+	}
+}
+
+void APlayerCharacter::AttackStart() {
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->PullTrigger();
+	}
+}
+
+void APlayerCharacter::AttackStop() {
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->ReleaseTrigger();
+	}
+}
+
+void APlayerCharacter::NextWeapon() {
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->NextWeapon();
+	}
+}
+
+void APlayerCharacter::PreviousWeapon() {
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->PreviousWeapon();
 	}
 }

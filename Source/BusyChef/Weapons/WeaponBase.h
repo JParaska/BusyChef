@@ -38,7 +38,7 @@ protected:
 #pragma endregion
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AProjectileBase> ProjectileClass;
+	float FireRate = 1.0f;
 #pragma endregion
 	
 #pragma region Methods
@@ -53,11 +53,17 @@ public:
 	void Fire();
 	virtual void Fire_Implementation();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SelectWeapon(bool bSelect);
+
 	UFUNCTION(BlueprintPure, Category = "Weapon")
 	UActorPoolComponent* GetProjectilePoolComponent() { return ProjectilePoolComponent; }
+
+	float GetFireRate() { return FireRate; }
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 #pragma endregion
 };
