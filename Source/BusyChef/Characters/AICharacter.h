@@ -14,6 +14,16 @@ UCLASS()
 class BUSYCHEF_API AAICharacter : public ACharacterBase, public IPoolableActorInterface
 {
 	GENERATED_BODY()
+
+#pragma region Properties
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	float AttackRangeEnter;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	float AttackRangeLeft;
+#pragma endregion
 	
 #pragma region Methods
 public:

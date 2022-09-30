@@ -26,19 +26,19 @@ void ACharacterBase::Death() {
 	UE_LOG(LogTemp, Error, TEXT("Override this method in child class"));
 }
 
-// Called when the game starts or when spawned
-void ACharacterBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-
 void ACharacterBase::AttackStart() {
 	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
 }
 
 void ACharacterBase::AttackStop() {
 	UE_LOG(LogTemp, Error, TEXT("Override in child classes"))
+}
+
+// Called when the game starts or when spawned
+void ACharacterBase::BeginPlay()
+{
+	Super::BeginPlay();
+
 }
 
 float ACharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {

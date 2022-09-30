@@ -2,6 +2,7 @@
 
 #include "AICharacter.h"
 
+#include "AIControllerBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -9,7 +10,7 @@
 #include "../Gameplay/SpawnerBase.h"
 
 AAICharacter::AAICharacter() {
-
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void AAICharacter::ActivatePoolable() {
@@ -17,6 +18,11 @@ void AAICharacter::ActivatePoolable() {
 	GetCharacterMovement()->Activate();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	StatsComponent->InitStats();
+
+	AAIControllerBase* AIControllerBase = Cast<AAIControllerBase>(GetController());
+	if (AIControllerBase != nullptr) {
+		AIControllerBase->StartLogic(AttackRangeEnter, AttackRangeLeft);
+	}
 }
 
 void AAICharacter::SetTransform(const FTransform& Destination) {
@@ -24,6 +30,12 @@ void AAICharacter::SetTransform(const FTransform& Destination) {
 }
 
 void AAICharacter::DeactivatePoolable() {
+	AAIControllerBase* AIControllerBase = Cast<AAIControllerBase>(GetController());
+	if (AIControllerBase != nullptr) {
+		AIControllerBase->StopLogic("Ai Character returned to pool");
+	}
+
+	AttackStop();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCharacterMovement()->Deactivate();
 	SetActorHiddenInGame(true);
