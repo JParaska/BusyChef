@@ -44,6 +44,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 	void AttackStop();
 
+	void Heal(const float Amount);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

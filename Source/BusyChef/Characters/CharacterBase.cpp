@@ -46,6 +46,12 @@ void ACharacterBase::AttackStop() {
 	}
 }
 
+void ACharacterBase::Heal(const float Amount) {
+	if (StatsComponent != nullptr) {
+		StatsComponent->UpdateHealth(Amount);
+	}
+}
+
 // Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {
@@ -59,7 +65,9 @@ void ACharacterBase::BeginPlay()
 
 float ACharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {
 	const float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	StatsComponent->UpdateHealth(-ActualDamage);
+	if (StatsComponent != nullptr) {
+		StatsComponent->UpdateHealth(-ActualDamage);
+	}
 	return ActualDamage;
 }
 
