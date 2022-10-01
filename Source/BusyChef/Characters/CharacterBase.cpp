@@ -4,8 +4,12 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 
+#include "../BusyChefGameModeBase.h"
+
 #include "../Components/CharacterStatsComponent.h"
 #include "../Components/WeaponComponent.h"
+
+#include "../Utilities/GameContextFunctionLibrary.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -47,6 +51,10 @@ void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	ABusyChefGameModeBase* GameMode = UGameContextFunctionLibrary::GetBusyChefGameModeBase(this);
+	if (GameMode != nullptr) {
+		GameMode->OnGameContextChanged.AddDynamic(this, &ACharacterBase::OnGameContextChanged);
+	}
 }
 
 float ACharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {
@@ -54,3 +62,5 @@ float ACharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 	StatsComponent->UpdateHealth(-ActualDamage);
 	return ActualDamage;
 }
+
+void ACharacterBase::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) { }

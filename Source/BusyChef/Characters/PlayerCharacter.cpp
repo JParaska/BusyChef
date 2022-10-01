@@ -4,7 +4,10 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+
+#include "../Components/CharacterStatsComponent.h"
 #include "../Components/WeaponComponent.h"
+#include "../Utilities/GameContextFunctionLibrary.h"
 
 APlayerCharacter::APlayerCharacter() {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Boom"));
@@ -25,7 +28,7 @@ APlayerCharacter::APlayerCharacter() {
 }
 
 void APlayerCharacter::Tick(float DeltaTime) {
-	PlayerAim();
+	
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -34,6 +37,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MovementX", this, &APlayerCharacter::MovementX);
 	PlayerInputComponent->BindAxis("MovementY", this, &APlayerCharacter::MovementY);
+	PlayerInputComponent->BindAxis("MouseX", this, &APlayerCharacter::MouseX);
+	PlayerInputComponent->BindAxis("MouseY", this, &APlayerCharacter::MouseY);
 
 	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &ACharacterBase::AttackStart);
 	PlayerInputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &ACharacterBase::AttackStop);
@@ -42,7 +47,19 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 void APlayerCharacter::Death() {
-	// TODO Game Over
+	AttackStop();
+
+	if (UGameContextFunctionLibrary::GetGameContext(this) == EGameContext::Game) {
+		UGameContextFunctionLibrary::GameOver(this);
+	}
+}
+
+void APlayerCharacter::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
+	if (NewContext == EGameContext::Game) {
+		if (StatsComponent != nullptr) {
+			StatsComponent->InitStats();
+		}
+	} // TODO Handle other contexts
 }
 
 void APlayerCharacter::MovementX(float Value) {
@@ -54,6 +71,18 @@ void APlayerCharacter::MovementX(float Value) {
 void APlayerCharacter::MovementY(float Value) {
 	if ((Controller != NULL) && (Value != 0.0f)) {
 		AddMovementInput(FVector(0, Value, 0));
+	}
+}
+
+void APlayerCharacter::MouseX(float Value) {
+	if ((Controller != NULL) && (Value != 0.0f)) {
+		PlayerAim();
+	}
+}
+
+void APlayerCharacter::MouseY(float Value) {
+	if ((Controller != NULL) && (Value != 0.0f)) {
+		PlayerAim();
 	}
 }
 

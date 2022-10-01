@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../Types.h"
 #include "CharacterBase.generated.h"
 
 #pragma region Forward declarations
@@ -48,5 +49,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+	UFUNCTION()
+	virtual void OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext);
 #pragma endregion
 };

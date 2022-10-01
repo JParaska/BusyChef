@@ -4,6 +4,7 @@
 
 #include "WaveManager.h"
 #include "../Components/ActorPoolComponent.h"
+#include "../Utilities/GameContextFunctionLibrary.h"
 
 void AEnemySpawner::ReturnSpawnedActor(AActor* SpawnedActor) {
 	Super::ReturnSpawnedActor(SpawnedActor);
@@ -20,6 +21,6 @@ void AEnemySpawner::ReturnSpawnedActor(AActor* SpawnedActor) {
 	// Otherwise, complete wave 
 	AWaveManager* WaveManager = Cast<AWaveManager>(GetOwner());
 	if (WaveManager != nullptr) {
-		WaveManager->FinishWave(true);
+		WaveManager->FinishWave(UGameContextFunctionLibrary::GetGameContext(this) == EGameContext::Game);
 	}
 }

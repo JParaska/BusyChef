@@ -45,5 +45,9 @@ public:
 	virtual void Death() override;
 
 	virtual void PossessedBy(AController* NewController) override;
+
+protected:
+
+	virtual void OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) override;
 #pragma endregion
 };

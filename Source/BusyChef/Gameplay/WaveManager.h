@@ -4,23 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Types.h"
 #include "WaveManager.generated.h"
 
 #pragma region Forward declarations
 class ASpawnerBase;
-#pragma endregion
-
-#pragma region Types
-USTRUCT(BlueprintType)
-struct FWaveConfiguration {
-
-	GENERATED_BODY()
-
-public:
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave")
-	TMap<TSubclassOf<AActor>, int> Enemies;
-};
 #pragma endregion
 
 UCLASS()
@@ -40,6 +28,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
 	float DelayBetweenWaves = 2.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
+	float InitialDelay = 5.0f;
 
 	/*
 	* 0 - Default wave
@@ -67,5 +58,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+
+	UFUNCTION()
+	void OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext);
 #pragma endregion
 };

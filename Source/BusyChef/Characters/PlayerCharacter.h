@@ -42,10 +42,16 @@ public:
 
 	virtual void Death() override;
 
+protected:
+
+	virtual void OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) override;
+
 private:
 
 	void MovementX(float Value);
 	void MovementY(float Value);
+	void MouseX(float Value);
+	void MouseY(float Value);
 
 	// Rotates player towards mouse point
 	void PlayerAim();

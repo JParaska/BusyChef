@@ -3,6 +3,8 @@
 #include "WaveManager.h"
 
 #include "SpawnerBase.h"
+#include "../BusyChefGameModeBase.h"
+#include "../Utilities/GameContextFunctionLibrary.h"
 
 // Sets default values
 AWaveManager::AWaveManager()
@@ -37,7 +39,7 @@ void AWaveManager::FinishWave(const bool StartNext) {
 		if (DelayBetweenWaves > 0) {
 			StartNextWaveDelegate.Unbind();
 			StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), CurrentWave == 0 ? 0 : WaveToStart);
-			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false, DelayBetweenWaves);
+			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
 		}
 		else {
 			StartWave(WaveToStart);
@@ -52,5 +54,18 @@ void AWaveManager::BeginPlay()
 
 	if (WaveSpawner != nullptr) {
 		WaveSpawner->SetOwner(this);
+	}
+
+	ABusyChefGameModeBase* GameMode = UGameContextFunctionLibrary::GetBusyChefGameModeBase(this);
+	if (GameMode != nullptr) {
+		GameMode->OnGameContextChanged.AddDynamic(this, &AWaveManager::OnGameContextChanged);
+	}
+}
+
+void AWaveManager::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
+	if (NewContext == EGameContext::Game) { // && OldContext != EGameContext::Pause) {
+		StartNextWaveDelegate.Unbind();
+		StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 1);
+		GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, InitialDelay, false);
 	}
 }
