@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PoolableActorInterface.h"
+#include "../Types.h"
 #include "ActorPoolComponent.generated.h"
 
 #pragma region Forward declarations
@@ -42,6 +43,8 @@ public:
 
 	void ReturnPoolableActor(IPoolableActorInterface* PooledActor);
 
+	void ReturnAll();
+
 	int ActiveActorsCount() const;
 
 	TSubclassOf<AActor> GetPoolableActorClass() const { return PoolableActorClass; }
@@ -49,5 +52,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;	
+
+	UFUNCTION()
+	void OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext);
 #pragma endregion
 };

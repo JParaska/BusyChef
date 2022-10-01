@@ -71,10 +71,7 @@ void AAICharacter::PossessedBy(AController* NewController) {
 }
 
 void AAICharacter::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
-	if (NewContext == EGameContext::MainMenu || NewContext == EGameContext::Game) {
-		ReturnToPool();
-	}
-	else if (NewContext == EGameContext::GameOver) {
+	if (NewContext == EGameContext::GameOver) {
 		AAIControllerBase* AIControllerBase = Cast<AAIControllerBase>(GetController());
 		if (AIControllerBase != nullptr) {
 			AIControllerBase->StopLogic("Player died");

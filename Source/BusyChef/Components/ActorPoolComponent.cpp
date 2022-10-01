@@ -2,6 +2,9 @@
 
 #include "ActorPoolComponent.h"
 
+#include "../BusyChefGameModeBase.h"
+#include "../Utilities/GameContextFunctionLibrary.h"
+
 // Sets default values for this component's properties
 UActorPoolComponent::UActorPoolComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -11,17 +14,6 @@ UActorPoolComponent::UActorPoolComponent(const FObjectInitializer& ObjectInitial
 
 	// ...
 }
-
-
-// Called when the game starts
-void UActorPoolComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
 
 // Called every frame
 void UActorPoolComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -63,7 +55,30 @@ void UActorPoolComponent::ReturnPoolableActor(IPoolableActorInterface* PooledAct
 	}
 }
 
+void UActorPoolComponent::ReturnAll() {
+	TArray<IPoolableActorInterface*> ActorsToReturn = ActiveActors.Array();
+	for (IPoolableActorInterface* ActorToReturn : ActorsToReturn) {
+		ReturnPoolableActor(ActorToReturn);
+	}
+}
+
 int UActorPoolComponent::ActiveActorsCount() const {
 	return ActiveActors.Num();
 }
 
+// Called when the game starts
+void UActorPoolComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	ABusyChefGameModeBase* GameMode = UGameContextFunctionLibrary::GetBusyChefGameModeBase(this);
+	if (GameMode != nullptr) {
+		GameMode->OnGameContextChanged.AddDynamic(this, &UActorPoolComponent::OnGameContextChanged);
+	}
+}
+
+void UActorPoolComponent::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
+	if (NewContext == EGameContext::MainMenu || NewContext == EGameContext::Game) {
+		ReturnAll();
+	}
+}

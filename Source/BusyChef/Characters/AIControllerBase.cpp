@@ -9,11 +9,12 @@
 void AAIControllerBase::StartLogic(const float AttackRangeEnter, const float AttackRangeLeft) {
 	if (BehaviorTreeAsset != nullptr) {
 		RunBehaviorTree(BehaviorTreeAsset);
+
 		GetBlackboardComponent()->SetValueAsFloat(FName("AttackRangeEnter"), AttackRangeEnter);
 		GetBlackboardComponent()->SetValueAsFloat(FName("AttackRangeLeft"), AttackRangeLeft);
 	}
 }
 
 void AAIControllerBase::StopLogic(const FString& Reason) {
-	BrainComponent->StopLogic(Reason);
+	BrainComponent->Cleanup();
 }

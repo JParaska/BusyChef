@@ -33,7 +33,8 @@ void AProjectileBase::Tick(float DeltaTime)
 }
 
 void AProjectileBase::ActivatePoolable() {
-	// TODO enable collision
+	ProjectileCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
 	SetActorHiddenInGame(false);
 	ProjectileMovement->Activate();
 	ProjectileMovement->Velocity = GetActorForwardVector().GetSafeNormal() * ProjectileMovement->InitialSpeed;
@@ -48,7 +49,7 @@ void AProjectileBase::SetTransform(const FTransform& Destination) {
 }
 
 void AProjectileBase::DeactivatePoolable() {
-	// TODO disable collision
+	ProjectileCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ProjectileMovement->Deactivate();
 	SetActorHiddenInGame(true);
