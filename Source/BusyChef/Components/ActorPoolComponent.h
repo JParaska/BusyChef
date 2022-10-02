@@ -49,6 +49,8 @@ public:
 
 	TSubclassOf<AActor> GetPoolableActorClass() const { return PoolableActorClass; }
 
+	int GetMaxActiveActors() const { return MaxActiveActors; }
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;	

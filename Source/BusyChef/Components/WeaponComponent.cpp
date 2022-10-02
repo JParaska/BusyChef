@@ -113,6 +113,10 @@ void UWeaponComponent::AddAmmo(const EWeaponType WeaponType, const int Amount) {
 	}
 }
 
+AWeaponBase* UWeaponComponent::GetWeapon(const int Index) const {
+	return Weapons.IsValidIndex(Index) ? Weapons[Index] : nullptr;
+}
+
 // Called when the game starts
 void UWeaponComponent::BeginPlay()
 {

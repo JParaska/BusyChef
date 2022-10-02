@@ -53,6 +53,8 @@ public:
 
 	void AddAmmo(const EWeaponType WeaponType, const int Amount);
 
+	AWeaponBase* GetWeapon(const int Index) const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

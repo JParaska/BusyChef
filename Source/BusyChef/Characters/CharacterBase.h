@@ -48,6 +48,8 @@ public:
 
 	void AddAmmo(const EWeaponType WeaponType, const float Amount);
 
+	UWeaponComponent* GetWeaponComponent() const { return WeaponComponent; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
