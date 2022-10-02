@@ -34,8 +34,29 @@ void AWeaponBase::Tick(float DeltaTime)
 }
 
 void AWeaponBase::Fire_Implementation() {
-	if (ProjectilePoolComponent != nullptr && Muzzle != nullptr)
+	if (CurrentAmmo <= 0 && !bHasInfiniteAmmo) {
+		return;
+	}
+
+	if (ProjectilePoolComponent != nullptr && Muzzle != nullptr) {
 		ProjectilePoolComponent->GetPoolableActor(Muzzle->GetComponentTransform());
+		
+		if (!bHasInfiniteAmmo) {
+			CurrentAmmo = FMath::Clamp(CurrentAmmo - 1, 0, MaxAmmo);
+		}
+	}
+}
+
+void AWeaponBase::AddAmmo(const EWeaponType Type, const int Amount) {
+	if (bHasInfiniteAmmo || WeaponType != Type) {
+		return;
+	}
+	
+	CurrentAmmo = FMath::Clamp(CurrentAmmo + Amount, 0, MaxAmmo);
+}
+
+bool AWeaponBase::IsSelectable() const {
+	return HasInfiniteAmmo() || CurrentAmmo > 0;
 }
 
 // Called when the game starts or when spawned

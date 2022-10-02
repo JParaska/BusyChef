@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Types.h"
 #include "WeaponBase.generated.h"
 
 #pragma region Forward declarations
@@ -38,7 +39,19 @@ protected:
 #pragma endregion
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	EWeaponType WeaponType = EWeaponType::StraightLine;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	float FireRate = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	bool bHasInfiniteAmmo = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	int MaxAmmo = 10;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	int CurrentAmmo = 0;
 #pragma endregion
 	
 #pragma region Methods
@@ -57,9 +70,21 @@ public:
 	void SelectWeapon(bool bSelect);
 
 	UFUNCTION(BlueprintPure, Category = "Weapon")
-	UActorPoolComponent* GetProjectilePoolComponent() { return ProjectilePoolComponent; }
+	UActorPoolComponent* GetProjectilePoolComponent() const { return ProjectilePoolComponent; }
 
-	float GetFireRate() { return FireRate; }
+	void AddAmmo(const EWeaponType Type, const int Amount);
+
+	bool IsSelectable() const;
+
+	EWeaponType GetWeaponType() const { return WeaponType; }
+
+	float GetFireRate() const { return FireRate; }
+
+	bool HasInfiniteAmmo() const { return bHasInfiniteAmmo; }
+
+	int GetMaxAmmo() const { return MaxAmmo; }
+
+	int GetCurrentAmmo() const { return CurrentAmmo; }
 
 protected:
 	// Called when the game starts or when spawned

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../Types.h"
 #include "WeaponComponent.generated.h"
 
 #pragma region Forward declarations
@@ -49,6 +50,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void SelectDefaultWeapon();
+
+	void AddAmmo(const EWeaponType WeaponType, const int Amount);
 
 protected:
 	// Called when the game starts

@@ -46,6 +46,8 @@ public:
 
 	void Heal(const float Amount);
 
+	void AddAmmo(const EWeaponType WeaponType, const float Amount);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

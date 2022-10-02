@@ -52,6 +52,12 @@ void ACharacterBase::Heal(const float Amount) {
 	}
 }
 
+void ACharacterBase::AddAmmo(const EWeaponType WeaponType, const float Amount) {
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->AddAmmo(WeaponType, Amount);
+	}
+}
+
 // Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {

@@ -22,6 +22,13 @@ enum class EGameContext : uint8 {
 	GameWon,
 	GameOver
 };
+
+UENUM(BlueprintType)
+enum class EWeaponType : uint8 {
+	StraightLine,
+	Balistic,
+	Static
+};
 #pragma endregion Enums
 
 #pragma region Structs

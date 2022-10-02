@@ -36,32 +36,59 @@ void UWeaponComponent::FireWeapon() {
 		return;
 
 	Weapons[SelectedWeapon]->Fire();
+
+	// When selected weapon runs aout of ammo, select next available
+	if (Weapons[SelectedWeapon]->GetCurrentAmmo() <= 0 && !Weapons[SelectedWeapon]->HasInfiniteAmmo()) {
+		NextWeapon();
+	}
 }
 
 void UWeaponComponent::NextWeapon() {
 	if (Weapons.Num() == 1)
 		return;
 
-	Weapons[SelectedWeapon]->SelectWeapon(false);
+	// Cycle through weapons, until next selectable weapon is found or we reach selected weapon again
+	int WeaponToSelect = SelectedWeapon;
+	do {
+		WeaponToSelect = WeaponToSelect + 1 >= Weapons.Num() ? 0 : WeaponToSelect + 1;
+		if (WeaponToSelect == SelectedWeapon) {
+			break;
+		}
+	} while (!Weapons[WeaponToSelect]->IsSelectable());
 
-	SelectedWeapon = SelectedWeapon + 1 >= Weapons.Num() ? 0 : SelectedWeapon + 1;
+	if (WeaponToSelect != SelectedWeapon) {
+		Weapons[SelectedWeapon]->SelectWeapon(false);
 
-	Weapons[SelectedWeapon]->SelectWeapon(true);
+		SelectedWeapon = WeaponToSelect;
 
-	ReleaseTrigger();
+		Weapons[SelectedWeapon]->SelectWeapon(true);
+
+		ReleaseTrigger();
+	}
 }
 
 void UWeaponComponent::PreviousWeapon() {
 	if (Weapons.Num() == 1)
 		return;
 
-	Weapons[SelectedWeapon]->SelectWeapon(false);
+	// Cycle through weapons, until next selectable weapon is found or we reach selected weapon again
+	int WeaponToSelect = SelectedWeapon;
+	do {
+		WeaponToSelect = WeaponToSelect - 1 < 0 ? Weapons.Num() - 1 : WeaponToSelect - 1;
+		if (WeaponToSelect == SelectedWeapon) {
+			break;
+		}
+	} while (!Weapons[WeaponToSelect]->IsSelectable());
 
-	SelectedWeapon = SelectedWeapon - 1 < 0 ? Weapons.Num() - 1 : SelectedWeapon - 1;
+	if (WeaponToSelect != SelectedWeapon) {
+		Weapons[SelectedWeapon]->SelectWeapon(false);
 
-	Weapons[SelectedWeapon]->SelectWeapon(true);
+		SelectedWeapon = WeaponToSelect;
 
-	ReleaseTrigger();
+		Weapons[SelectedWeapon]->SelectWeapon(true);
+
+		ReleaseTrigger();
+	}
 }
 
 void UWeaponComponent::SelectDefaultWeapon() {
@@ -73,6 +100,15 @@ void UWeaponComponent::SelectDefaultWeapon() {
 	if (Weapons.Num() > 1) {
 		for (int i = 1; i < Weapons.Num(); i++) {
 			Weapons[i]->SelectWeapon(false);
+		}
+	}
+}
+
+void UWeaponComponent::AddAmmo(const EWeaponType WeaponType, const int Amount) {
+	for (AWeaponBase* Weapon : Weapons) {
+		if (Weapon->GetWeaponType() == WeaponType) {
+			Weapon->AddAmmo(WeaponType, Amount);
+			break;
 		}
 	}
 }
