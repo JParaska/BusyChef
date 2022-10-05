@@ -55,6 +55,9 @@ public:
 
 	AWeaponBase* GetWeapon(const int Index) const;
 
+	UFUNCTION(BlueprintPure, Category = "Weapon")
+	AWeaponBase* GetActiveWeapon() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

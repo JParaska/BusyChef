@@ -95,6 +95,7 @@ void UWeaponComponent::SelectDefaultWeapon() {
 	if (Weapons.Num() == 0)
 		return;
 
+	SelectedWeapon = 0;
 	Weapons[0]->SelectWeapon(true);
 
 	if (Weapons.Num() > 1) {
@@ -115,6 +116,10 @@ void UWeaponComponent::AddAmmo(const EWeaponType WeaponType, const int Amount) {
 
 AWeaponBase* UWeaponComponent::GetWeapon(const int Index) const {
 	return Weapons.IsValidIndex(Index) ? Weapons[Index] : nullptr;
+}
+
+AWeaponBase* UWeaponComponent::GetActiveWeapon() const {
+	return Weapons[SelectedWeapon];
 }
 
 // Called when the game starts
