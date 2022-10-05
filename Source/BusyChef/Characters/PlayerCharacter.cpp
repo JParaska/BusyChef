@@ -64,13 +64,13 @@ void APlayerCharacter::OnGameContextChanged(const EGameContext OldContext, const
 
 void APlayerCharacter::MovementX(float Value) {
 	if ((Controller != NULL) && (Value != 0.0f)) {
-		AddMovementInput(FVector(Value, 0, 0));
+		AddMovementInput(FollowCamera->GetRightVector().RotateAngleAxis(-90.0f, FVector::UpVector), Value);
 	}
 }
 
 void APlayerCharacter::MovementY(float Value) {
 	if ((Controller != NULL) && (Value != 0.0f)) {
-		AddMovementInput(FVector(0, Value, 0));
+		AddMovementInput(FollowCamera->GetRightVector(), Value);
 	}
 }
 
