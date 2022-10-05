@@ -36,8 +36,9 @@ void AProjectileBase::ActivatePoolable() {
 	ProjectileCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
 	SetActorHiddenInGame(false);
-	ProjectileMovement->Activate();
 	ProjectileMovement->Velocity = GetActorForwardVector().GetSafeNormal() * ProjectileMovement->InitialSpeed;
+	ProjectileMovement->Activate();
+	ProjectileMovement->SetUpdatedComponent(GetRootComponent());
 
 	if (LifeTime > 0) {
 		GetWorld()->GetTimerManager().SetTimer(LifeTimeTimerHandle, this, &AProjectileBase::ReturnToPool, LifeTime, false, LifeTime);
@@ -84,7 +85,7 @@ void AProjectileBase::ProjectileHit_Implementation(AActor* Actor) {
 void AProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (OtherActor == nullptr)
 		return;
-
+	
 	// If owner has same tag as hit actor, return - (a bit crude way to) avoid friendly fire
 	if (Owner != nullptr && Owner->Tags.Num() > 0 && OtherActor->Tags.Contains(Owner->Tags[0])) {
 		return;

@@ -21,7 +21,7 @@ AWeaponBase::AWeaponBase()
 	WeaponMesh->SetupAttachment(RootComponent);
 
 	Muzzle = CreateDefaultSubobject<UArrowComponent>(TEXT("Muzzle"));
-	Muzzle->SetupAttachment(WeaponMesh);
+	Muzzle->SetupAttachment(RootComponent);
 
 	ProjectilePoolComponent = CreateDefaultSubobject<UActorPoolComponent>(TEXT("Projectile pool"));
 }
