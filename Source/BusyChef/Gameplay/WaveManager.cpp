@@ -26,19 +26,23 @@ void AWaveManager::StartWave(const int Index) {
 		return;
 
 	CurrentWave = Index >= Waves.Num() ? 0 : Index;
+	
 	const FWaveConfiguration Wave = Waves[CurrentWave];
+	const int WaveScale = Wave.bCanBeScaled ? CompletedWaves / Waves.Num() : 0; // for each completed round, add extra enemies
+
 	for (TPair<TSubclassOf<AActor>, int> Config : Wave.Enemies) {
-		WaveSpawner->Spawn(Config.Key, Config.Value);
+		WaveSpawner->Spawn(Config.Key, Config.Value + WaveScale);
 	}
 }
 
 void AWaveManager::FinishWave(const bool StartNext) {
+	CompletedWaves++;
+
 	if (StartNext) {
-		int WaveToStart = CurrentWave == 0 ? 0 : CurrentWave + 1;
+		int WaveToStart = CurrentWave + 1;
 
 		if (DelayBetweenWaves > 0) {
 			StartNextWaveDelegate.Unbind();
-			StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), CurrentWave == 0 ? 0 : WaveToStart);
 			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
 		}
 		else {
@@ -65,10 +69,13 @@ void AWaveManager::BeginPlay()
 void AWaveManager::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
 	if (NewContext == EGameContext::Game) { // && OldContext != EGameContext::Pause) {
 		StartNextWaveDelegate.Unbind();
-		StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 1);
+		StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 0);
 		GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, InitialDelay, false);
 	}
 	else if (NewContext == EGameContext::GameOver) {
 		GetWorldTimerManager().ClearTimer(StartNextWaveHandle);
+
+		CurrentWave = 0;
+		CompletedWaves = 0;
 	}
 }

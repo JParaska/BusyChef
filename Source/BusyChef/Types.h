@@ -41,5 +41,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave")
 	TMap<TSubclassOf<AActor>, int> Enemies;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave")
+	bool bCanBeScaled = true;
 };
 #pragma endregion Structs

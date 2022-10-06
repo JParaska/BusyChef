@@ -21,16 +21,18 @@ private:
 
 	int CurrentWave = -1;
 
+	int CompletedWaves = 0;
+
 	FTimerDelegate StartNextWaveDelegate;
 	FTimerHandle StartNextWaveHandle;
 
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
-	float DelayBetweenWaves = 2.0f;
+	float DelayBetweenWaves = 10.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
-	float InitialDelay = 5.0f;
+	float InitialDelay = 15.0f;
 
 	/*
 	* 0 - Default wave
