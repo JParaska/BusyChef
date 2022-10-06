@@ -19,8 +19,10 @@ class BUSYCHEF_API AWaveManager : public AActor
 #pragma region Properties
 private:
 
+	UPROPERTY(VisibleAnywhere, Category = "Wave")
 	int CurrentWave = -1;
 
+	UPROPERTY(VisibleAnywhere, Category = "Wave")
 	int CompletedWaves = 0;
 
 	FTimerDelegate StartNextWaveDelegate;

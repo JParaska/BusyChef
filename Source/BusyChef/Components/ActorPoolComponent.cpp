@@ -31,6 +31,7 @@ IPoolableActorInterface* UActorPoolComponent::GetPoolableActor(const FTransform&
 	if (!ActorPool.Dequeue(PooledActor)) {
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = GetOwner();
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		PooledActor = GetWorld()->SpawnActor<IPoolableActorInterface>(PoolableActorClass, Destination, SpawnParams);
 	}
 	else {

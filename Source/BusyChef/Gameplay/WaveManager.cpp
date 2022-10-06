@@ -43,6 +43,7 @@ void AWaveManager::FinishWave(const bool StartNext) {
 
 		if (DelayBetweenWaves > 0) {
 			StartNextWaveDelegate.Unbind();
+			StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), WaveToStart);
 			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
 		}
 		else {
