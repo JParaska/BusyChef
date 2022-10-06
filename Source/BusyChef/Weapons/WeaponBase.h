@@ -69,6 +69,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SelectWeapon(bool bSelect);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void FireStarted();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void FireStopped();
+
 	UFUNCTION(BlueprintPure, Category = "Weapon")
 	UActorPoolComponent* GetProjectilePoolComponent() const { return ProjectilePoolComponent; }
 

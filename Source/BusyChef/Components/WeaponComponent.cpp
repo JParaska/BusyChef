@@ -25,10 +25,12 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void UWeaponComponent::PullTrigger() {
 	const float FireRate = Weapons[SelectedWeapon]->GetFireRate();
 	GetWorld()->GetTimerManager().SetTimer(FireWeaponHandle, this, &UWeaponComponent::FireWeapon, FireRate, true, 0.1f);
+	Weapons[SelectedWeapon]->FireStarted();
 }
 
 void UWeaponComponent::ReleaseTrigger() {
 	GetWorld()->GetTimerManager().ClearTimer(FireWeaponHandle);
+	Weapons[SelectedWeapon]->FireStopped();
 }
 
 void UWeaponComponent::FireWeapon() {
@@ -39,6 +41,7 @@ void UWeaponComponent::FireWeapon() {
 
 	// When selected weapon runs aout of ammo, select next available
 	if (Weapons[SelectedWeapon]->GetCurrentAmmo() <= 0 && !Weapons[SelectedWeapon]->HasInfiniteAmmo()) {
+		Weapons[SelectedWeapon]->FireStopped();
 		NextWeapon();
 	}
 }
