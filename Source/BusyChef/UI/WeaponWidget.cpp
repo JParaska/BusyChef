@@ -26,7 +26,6 @@ void UWeaponWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	}
 
 	if (ShownWeapon == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("Trying to get Weapon %i"), WeaponIndex);
 		ShownWeapon = ShownCharacter->GetWeaponComponent()->GetWeapon(WeaponIndex);
 	}
 

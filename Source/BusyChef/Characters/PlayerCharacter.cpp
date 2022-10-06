@@ -93,10 +93,12 @@ void APlayerCharacter::PlayerAim() {
 		FVector WorldDirection;
 		PlayerController->DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
 
-		FPlane GroundPlane = FPlane(FVector(0), FVector(0, 0, 1));
+		FVector Ground = GetActorLocation();
+
+		FPlane GroundPlane = FPlane(Ground, FVector(0, 0, 1));
 		const FVector AimPoint = FMath::RayPlaneIntersection(WorldLocation, WorldDirection, GroundPlane);
 
-		FRotator NewRotation = FRotationMatrix::MakeFromX(AimPoint - GetActorLocation()).Rotator();
+		FRotator NewRotation = FRotationMatrix::MakeFromX(AimPoint - Ground).Rotator();
 
 		FRotator CurrentRotation = GetActorRotation();
 		CurrentRotation.Yaw = NewRotation.Yaw;
