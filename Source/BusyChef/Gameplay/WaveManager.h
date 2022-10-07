@@ -7,6 +7,8 @@
 #include "../Types.h"
 #include "WaveManager.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWaveCompleted);
+
 #pragma region Forward declarations
 class ASpawnerBase;
 #pragma endregion
@@ -19,10 +21,8 @@ class BUSYCHEF_API AWaveManager : public AActor
 #pragma region Properties
 private:
 
-	UPROPERTY(VisibleAnywhere, Category = "Wave")
 	int CurrentWave = -1;
 
-	UPROPERTY(VisibleAnywhere, Category = "Wave")
 	int CompletedWaves = 0;
 
 	FTimerDelegate StartNextWaveDelegate;
@@ -44,6 +44,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ASpawnerBase> WaveSpawner;
+
+public:
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWaveCompleted OnWaveCompleted;
 #pragma endregion
 	
 #pragma region Methods
@@ -58,6 +63,18 @@ public:
 	void StartWave(const int Index);
 
 	void FinishWave(const bool StartNext);
+
+	UFUNCTION(BlueprintPure)
+	int GetWavesCompleted() const { return CompletedWaves; }
+
+	UFUNCTION(BlueprintPure)
+	int GetCurrentWave() const { return CurrentWave; }
+
+	UFUNCTION(BlueprintPure)
+	float GetDelayBetweenWaves() const { return DelayBetweenWaves; }
+
+	UFUNCTION(BlueprintPure)
+	float GetInitialDelay() const { return InitialDelay; }
 
 protected:
 	// Called when the game starts or when spawned

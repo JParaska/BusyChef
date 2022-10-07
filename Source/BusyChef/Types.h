@@ -19,7 +19,6 @@ enum class EGameContext : uint8 {
 	MainMenu,
 	CharacterSelection, // Skipped for now
 	Game,
-	GameWon,
 	GameOver
 };
 

@@ -9,6 +9,10 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGameContextChanged, const EGameContext, OldContext, const EGameContext, NewContext);
 
+#pragma region Forward declarations
+class AWaveManager;
+#pragma endregion
+
 UCLASS()
 class BUSYCHEF_API ABusyChefGameModeBase : public AGameModeBase
 {
@@ -19,6 +23,8 @@ private:
 
 	EGameContext GameContext = EGameContext::MainMenu;
 
+	TObjectPtr<AWaveManager> WaveManager;
+
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Game context", meta = (AllowPrivateAccess = "true"))
@@ -28,18 +34,37 @@ public:
 #pragma region Methods
 public:
 
-	EGameContext GetGameContext() const { return GameContext; }
+	/*
+	* Sets new timer manager if there is none registered
+	* 
+	* @return false if there was already WaveManager registered, true otherwise
+	*/
+	bool SetWaveManager(AWaveManager* Manager);
 
-	void SetGameContext(const EGameContext NewContext);
+	UFUNCTION(BlueprintPure)
+	AWaveManager* GetWaveManager() const { return WaveManager; }
+
+	EGameContext GetGameContext() const { return GameContext; }
 
 	FOnGameContextChanged GetOnGameContextChanged() { return OnGameContextChanged; }
 
+	/*
+	* Sets game context to Game
+	*/
 	void StartNewGame();
 
-	void GameWon();
-
+	/*
+	* Sets game context to GameOver
+	*/
 	void GameOver();
 
+	/*
+	* Sets game context to MainMenu
+	*/
 	void BackToMainMenu();
+
+private:
+
+	void SetGameContext(const EGameContext NewContext);
 #pragma endregion
 };

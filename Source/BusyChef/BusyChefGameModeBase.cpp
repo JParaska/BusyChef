@@ -1,24 +1,20 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-
 #include "BusyChefGameModeBase.h"
 
-void ABusyChefGameModeBase::SetGameContext(const EGameContext NewContext) {
-	const EGameContext OldContext = GameContext;
-	GameContext = NewContext;
+#include "Gameplay/WaveManager.h"
 
-	OnGameContextChanged.Broadcast(OldContext, NewContext);
+bool ABusyChefGameModeBase::SetWaveManager(AWaveManager* Manager) {
+	if (WaveManager != nullptr)
+		return false;
+
+	WaveManager = Manager;
+	return true;
 }
 
 void ABusyChefGameModeBase::StartNewGame() {
 	if (GameContext == EGameContext::MainMenu) {
 		SetGameContext(EGameContext::Game); // TODO prompt character selection
-	}
-}
-
-void ABusyChefGameModeBase::GameWon() {
-	if (GameContext == EGameContext::Game) {
-		SetGameContext(EGameContext::GameWon);
 	}
 }
 
@@ -30,8 +26,14 @@ void ABusyChefGameModeBase::GameOver() {
 
 void ABusyChefGameModeBase::BackToMainMenu() {
 	if (GameContext == EGameContext::Game ||
-		GameContext == EGameContext::GameWon ||
 		GameContext == EGameContext::GameOver) { // TODO add pause menu
 		SetGameContext(EGameContext::MainMenu);
 	}
+}
+
+void ABusyChefGameModeBase::SetGameContext(const EGameContext NewContext) {
+	const EGameContext OldContext = GameContext;
+	GameContext = NewContext;
+
+	OnGameContextChanged.Broadcast(OldContext, NewContext);
 }

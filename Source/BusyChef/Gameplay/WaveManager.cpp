@@ -45,6 +45,7 @@ void AWaveManager::FinishWave(const bool StartNext) {
 			StartNextWaveDelegate.Unbind();
 			StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), WaveToStart);
 			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
+			OnWaveCompleted.Broadcast();
 		}
 		else {
 			StartWave(WaveToStart);
@@ -57,13 +58,18 @@ void AWaveManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (WaveSpawner != nullptr) {
-		WaveSpawner->SetOwner(this);
-	}
-
 	ABusyChefGameModeBase* GameMode = UGameContextFunctionLibrary::GetBusyChefGameModeBase(this);
 	if (GameMode != nullptr) {
+		if (!GameMode->SetWaveManager(this)) {
+			Destroy(); // there should be only one wave manager in scene
+			return;
+		}
+
 		GameMode->OnGameContextChanged.AddDynamic(this, &AWaveManager::OnGameContextChanged);
+	}
+
+	if (WaveSpawner != nullptr) {
+		WaveSpawner->SetOwner(this);
 	}
 }
 
