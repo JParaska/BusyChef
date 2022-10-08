@@ -16,6 +16,9 @@ void ABusyChefGameModeBase::StartNewGame() {
 	if (GameContext == EGameContext::MainMenu) {
 		SetGameContext(EGameContext::Game); // TODO prompt character selection
 	}
+	else if (GameContext == EGameContext::GameOver) {
+		SetGameContext(EGameContext::Game);
+	}
 }
 
 void ABusyChefGameModeBase::PauseGame() {
