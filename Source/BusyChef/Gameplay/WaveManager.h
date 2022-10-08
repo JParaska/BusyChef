@@ -33,9 +33,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
 	float DelayBetweenWaves = 10.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave", meta = (AllowPrivateAccess = "true"))
-	float InitialDelay = 15.0f;
-
 	/*
 	* 0 - Default wave
 	*/
@@ -47,7 +44,7 @@ protected:
 
 public:
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Wave")
 	FOnWaveCompleted OnWaveCompleted;
 #pragma endregion
 	
@@ -72,9 +69,6 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetDelayBetweenWaves() const { return DelayBetweenWaves; }
-
-	UFUNCTION(BlueprintPure)
-	float GetInitialDelay() const { return InitialDelay; }
 
 protected:
 	// Called when the game starts or when spawned

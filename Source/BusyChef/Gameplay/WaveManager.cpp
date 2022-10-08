@@ -77,7 +77,8 @@ void AWaveManager::OnGameContextChanged(const EGameContext OldContext, const EGa
 	if (NewContext == EGameContext::Game) { // && OldContext != EGameContext::Pause) {
 		StartNextWaveDelegate.Unbind();
 		StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 0);
-		GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, InitialDelay, false);
+		GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
+		OnWaveCompleted.Broadcast();
 	}
 	else if (NewContext == EGameContext::GameOver) {
 		GetWorldTimerManager().ClearTimer(StartNextWaveHandle);
