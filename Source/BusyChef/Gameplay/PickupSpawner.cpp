@@ -36,10 +36,20 @@ void APickupSpawner::SeletAndSpawnPickup() {
 }
 
 void APickupSpawner::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
-	if (NewContext != EGameContext::Game) { // && NewContext != EGameContext::Pause) {
-		GetWorld()->GetTimerManager().ClearTimer(PickupSpawnTimerHandle);
+	switch (NewContext) {
+	case EGameContext::Pause:
+	{
+		GetWorld()->GetTimerManager().PauseTimer(PickupSpawnTimerHandle);
+		break;
 	}
-	else {
-		GetWorld()->GetTimerManager().SetTimer(PickupSpawnTimerHandle, this, &APickupSpawner::SeletAndSpawnPickup, PickupSpawnTime, true);
+	case EGameContext::Game : {
+		if (OldContext == EGameContext::Pause) {
+			GetWorld()->GetTimerManager().UnPauseTimer(PickupSpawnTimerHandle);
+		}
+		else {
+			GetWorld()->GetTimerManager().SetTimer(PickupSpawnTimerHandle, this, &APickupSpawner::SeletAndSpawnPickup, PickupSpawnTime, true);
+		}
+		break;
+	}
 	}
 }

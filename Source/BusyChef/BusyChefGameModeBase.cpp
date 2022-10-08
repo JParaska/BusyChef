@@ -18,6 +18,18 @@ void ABusyChefGameModeBase::StartNewGame() {
 	}
 }
 
+void ABusyChefGameModeBase::PauseGame() {
+	if (GameContext == EGameContext::Game) {
+		SetGameContext(EGameContext::Pause);
+	}
+}
+
+void ABusyChefGameModeBase::ResumeGame() {
+	if (GameContext == EGameContext::Pause) {
+		SetGameContext(EGameContext::Game);
+	}
+}
+
 void ABusyChefGameModeBase::GameOver() {
 	if (GameContext == EGameContext::Game) {
 		SetGameContext(EGameContext::GameOver);
@@ -26,7 +38,8 @@ void ABusyChefGameModeBase::GameOver() {
 
 void ABusyChefGameModeBase::BackToMainMenu() {
 	if (GameContext == EGameContext::Game ||
-		GameContext == EGameContext::GameOver) { // TODO add pause menu
+		GameContext == EGameContext::Pause ||
+		GameContext == EGameContext::GameOver) {
 		SetGameContext(EGameContext::MainMenu);
 	}
 }

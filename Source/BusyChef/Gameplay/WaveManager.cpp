@@ -74,16 +74,32 @@ void AWaveManager::BeginPlay()
 }
 
 void AWaveManager::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
-	if (NewContext == EGameContext::Game) { // && OldContext != EGameContext::Pause) {
-		StartNextWaveDelegate.Unbind();
-		StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 0);
-		GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
-		OnWaveCompleted.Broadcast();
+	switch (NewContext) {
+	case EGameContext::Pause:
+	{
+		GetWorldTimerManager().PauseTimer(StartNextWaveHandle);
+		break;
 	}
-	else if (NewContext == EGameContext::GameOver) {
+	case EGameContext::Game:
+	{
+		if (OldContext == EGameContext::Pause) {
+			GetWorldTimerManager().UnPauseTimer(StartNextWaveHandle);
+		}
+		else {
+			StartNextWaveDelegate.Unbind();
+			StartNextWaveDelegate.BindUFunction(this, FName("StartWave"), 0);
+			GetWorldTimerManager().SetTimer(StartNextWaveHandle, StartNextWaveDelegate, DelayBetweenWaves, false);
+			OnWaveCompleted.Broadcast();
+		}
+		break;
+	}
+	case EGameContext::GameOver:
+	{
 		GetWorldTimerManager().ClearTimer(StartNextWaveHandle);
 
 		CurrentWave = 0;
 		CompletedWaves = 0;
+		break;
+	}
 	}
 }

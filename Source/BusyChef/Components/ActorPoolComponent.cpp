@@ -79,7 +79,8 @@ void UActorPoolComponent::BeginPlay()
 }
 
 void UActorPoolComponent::OnGameContextChanged(const EGameContext OldContext, const EGameContext NewContext) {
-	if (NewContext == EGameContext::MainMenu || NewContext == EGameContext::Game) {
+	if (NewContext == EGameContext::MainMenu ||
+		(NewContext == EGameContext::Game && OldContext != EGameContext::Pause)) {
 		ReturnAll();
 	}
 }

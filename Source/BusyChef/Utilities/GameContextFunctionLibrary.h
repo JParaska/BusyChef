@@ -23,6 +23,12 @@ public:
 	static void StartNewGame(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "Game context", meta = (WorldContext = "WorldContextObject"))
+	static void PauseGame(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "Game context", meta = (WorldContext = "WorldContextObject"))
+	static void ResumeGame(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "Game context", meta = (WorldContext = "WorldContextObject"))
 	static void GameOver(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "Game context", meta = (WorldContext = "WorldContextObject"))

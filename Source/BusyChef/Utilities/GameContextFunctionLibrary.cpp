@@ -16,6 +16,20 @@ void UGameContextFunctionLibrary::StartNewGame(const UObject* WorldContextObject
 	}
 }
 
+void UGameContextFunctionLibrary::PauseGame(const UObject* WorldContextObject) {
+	ABusyChefGameModeBase* GameMode = GetBusyChefGameModeBase(WorldContextObject);
+	if (GameMode != nullptr) {
+		GameMode->PauseGame();
+	}
+}
+
+void UGameContextFunctionLibrary::ResumeGame(const UObject* WorldContextObject) {
+	ABusyChefGameModeBase* GameMode = GetBusyChefGameModeBase(WorldContextObject);
+	if (GameMode != nullptr) {
+		GameMode->ResumeGame();
+	}
+}
+
 void UGameContextFunctionLibrary::GameOver(const UObject* WorldContextObject) {
 	ABusyChefGameModeBase* GameMode = GetBusyChefGameModeBase(WorldContextObject);
 	if (GameMode != nullptr) {

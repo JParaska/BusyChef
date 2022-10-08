@@ -54,6 +54,16 @@ public:
 	void StartNewGame();
 
 	/*
+	* Sets game context to pause
+	*/
+	void PauseGame();
+
+	/*
+	* Sets game context to game
+	*/
+	void ResumeGame();
+
+	/*
 	* Sets game context to GameOver
 	*/
 	void GameOver();
