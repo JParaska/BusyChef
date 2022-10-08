@@ -78,6 +78,8 @@ public:
 	*/
 	void AddAmmo(const EWeaponType WeaponType, const int Amount);
 
+	void ResetWeapons();
+
 	AWeaponBase* GetWeapon(const int Index) const;
 
 	UFUNCTION(BlueprintPure, Category = "Weapon")

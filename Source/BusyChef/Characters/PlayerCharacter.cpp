@@ -49,6 +49,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void APlayerCharacter::Death() {
 	AttackStop();
 
+	if (WeaponComponent != nullptr) {
+		WeaponComponent->ResetWeapons();
+	}
+
 	if (UGameContextFunctionLibrary::GetGameContext(this) == EGameContext::Game) {
 		UGameContextFunctionLibrary::GameOver(this);
 	}

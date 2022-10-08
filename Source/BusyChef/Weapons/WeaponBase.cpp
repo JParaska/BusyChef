@@ -55,6 +55,10 @@ void AWeaponBase::AddAmmo(const EWeaponType Type, const int Amount) {
 	CurrentAmmo = FMath::Clamp(CurrentAmmo + Amount, 0, MaxAmmo);
 }
 
+void AWeaponBase::ResetAmmo() {
+	CurrentAmmo = 0;
+}
+
 bool AWeaponBase::IsSelectable() const {
 	return HasInfiniteAmmo() || CurrentAmmo > 0;
 }

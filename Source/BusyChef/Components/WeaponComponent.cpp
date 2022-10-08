@@ -37,13 +37,14 @@ void UWeaponComponent::FireWeapon() {
 	if (Weapons[SelectedWeapon] == nullptr)
 		return;
 
-	Weapons[SelectedWeapon]->Fire();
-
 	// When selected weapon runs aout of ammo, select next available
 	if (Weapons[SelectedWeapon]->GetCurrentAmmo() <= 0 && !Weapons[SelectedWeapon]->HasInfiniteAmmo()) {
 		Weapons[SelectedWeapon]->FireStopped();
 		NextWeapon();
+		return;
 	}
+
+	Weapons[SelectedWeapon]->Fire();
 }
 
 void UWeaponComponent::NextWeapon() {
@@ -115,6 +116,16 @@ void UWeaponComponent::AddAmmo(const EWeaponType WeaponType, const int Amount) {
 			break;
 		}
 	}
+}
+
+void UWeaponComponent::ResetWeapons() {
+	for (AWeaponBase* Weapon : Weapons) {
+		if (!Weapon->HasInfiniteAmmo()) {
+			Weapon->ResetAmmo();
+		}
+	}
+
+	SelectDefaultWeapon();
 }
 
 AWeaponBase* UWeaponComponent::GetWeapon(const int Index) const {

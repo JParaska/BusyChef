@@ -80,6 +80,8 @@ public:
 
 	void AddAmmo(const EWeaponType Type, const int Amount);
 
+	void ResetAmmo();
+
 	bool IsSelectable() const;
 
 	EWeaponType GetWeaponType() const { return WeaponType; }
