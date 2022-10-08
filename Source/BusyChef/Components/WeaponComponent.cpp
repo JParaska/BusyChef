@@ -24,7 +24,7 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UWeaponComponent::PullTrigger() {
 	const float FireRate = Weapons[SelectedWeapon]->GetFireRate();
-	GetWorld()->GetTimerManager().SetTimer(FireWeaponHandle, this, &UWeaponComponent::FireWeapon, FireRate, true, 0.1f);
+	GetWorld()->GetTimerManager().SetTimer(FireWeaponHandle, this, &UWeaponComponent::FireWeapon, FireRate, true, 0.0f);
 	Weapons[SelectedWeapon]->FireStarted();
 }
 
