@@ -6,7 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "CharacterStatsComponent.generated.h"
 
-
+/*
+* Component for handling stats of a character. E.g. health
+*/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUSYCHEF_API UCharacterStatsComponent : public UActorComponent
 {

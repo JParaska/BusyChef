@@ -19,6 +19,7 @@ class BUSYCHEF_API UActorPoolComponent : public UActorComponent
 #pragma region Properties
 protected:
 
+	// Available actors
 	TQueue<IPoolableActorInterface*, EQueueMode::Mpsc> ActorPool;
 
 	TSet<IPoolableActorInterface*> ActiveActors;
